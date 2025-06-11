@@ -8,9 +8,9 @@ namespace ChatService.Managers
     public class MessageManager
     {
         private readonly ChatDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<MessageManager> _logger;
 
-        public MessageManager(ChatDbContext context, ILogger logger)
+        public MessageManager(ChatDbContext context, ILogger<MessageManager> logger)
         {
             _context = context;
             _logger = logger;

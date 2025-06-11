@@ -9,9 +9,9 @@ namespace ChatService.Managers
     {
 
         private readonly ChatDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<ChatRoomManager> _logger;
 
-        public ChatRoomManager(ChatDbContext context, ILogger logger) { 
+        public ChatRoomManager(ChatDbContext context, ILogger<ChatRoomManager> logger) { 
             _context = context;
             _logger = logger;
         }

@@ -1,5 +1,6 @@
 using ChatService.Database;
 using ChatService.Hubs;
+using ChatService.Managers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
+
+builder.Services.AddScoped<ChatRoomManager>();
+builder.Services.AddScoped<MessageManager>();
+builder.Services.AddScoped<ParticipantManager>();
 
 builder.Services.AddDbContext<ChatDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionString"))

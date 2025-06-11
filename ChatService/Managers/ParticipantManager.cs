@@ -8,7 +8,7 @@ namespace ChatService.Managers
     public class ParticipantManager
     {
         private readonly ChatDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<ParticipantManager> _logger;
 
         public ParticipantManager(ChatDbContext context, ILogger<ParticipantManager> logger)
         {
