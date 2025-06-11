@@ -1,7 +1,9 @@
 ﻿using ChatService.DTOs;
+using ChatService.Hubs;
 using ChatService.Managers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ChatService.Controllers
 {
@@ -10,10 +12,12 @@ namespace ChatService.Controllers
     public class MessageController : ControllerBase
     {
         private readonly MessageManager _messageManager;
+        private readonly IHubContext<ChatHub> _hubContext;
 
-        public MessageController(MessageManager messageManager)
+        public MessageController(MessageManager messageManager, IHubContext<ChatHub> hubContext)
         {
             _messageManager = messageManager;
+            _hubContext = hubContext;
         }
 
         [HttpPost("sendMessage")]
@@ -24,11 +28,14 @@ namespace ChatService.Controllers
                 return false;
             }
             bool res = await _messageManager.SendMessageAsync(messageDTO);
-            if (!res)
+            if (res)
             {
-                return false;
+                // Notify connected clients about the new message
+                await _hubContext.Clients.Group(messageDTO.ChatRoomId.ToString())
+                    .SendAsync("ReceiveMessage", messageDTO.ParticipantId, messageDTO.MessageContent);
+                return true;
             }
-            return true;
+            return false;
         }
 
         [HttpGet("getMessages/{chatRoomId}")]

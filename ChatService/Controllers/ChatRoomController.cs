@@ -26,7 +26,7 @@ namespace ChatService.Controllers
                 return BadRequest("Chat room data is required.");
             }
 
-            if(chatRoom.Participants == null || chatRoom.Participants.Count == 0)
+            if (chatRoom.Participants == null || chatRoom.Participants.Count == 0)
             {
                 return BadRequest("At least one participant is required to create a chat room.");
             }
@@ -71,4 +71,5 @@ namespace ChatService.Controllers
             }
             return NotFound("No chat rooms found.");
         }
+    }
 }
